@@ -1,30 +1,40 @@
 #include "iostream"
 #include <vector>
 
-using Matrix = std::vector<std::vector<int>>;
+struct Tensor {
+  std::vector<float> data;
+  std::vector<int> shape;
 
-void matmul(Matrix a, Matrix b) {
-  Matrix result(a.size(), std::vector<int>(b[0].size(), 0));
-  for (int i{0}; i < a.size(); ++i) {
-    for (int j{0}; j < b[0].size(); ++j) {
-      for (int k{0}; k < a[0].size(); ++k) {
-        result[i][j] += a[i][k] * b[k][j];
+  int row() const { return shape[0]; };
+  int column() const { return shape[1]; };
+  float &at(int r, int c) { return data[r * column() + c]; }
+};
+
+Tensor matmul(Tensor &a, Tensor &b) {
+  Tensor result{std::vector<float>(a.row() * b.column(), 0),
+                {a.shape[0], b.shape[1]}};
+  for (int i{0}; i < a.row(); ++i) {
+    for (int j{0}; j < b.column(); ++j) {
+      for (int k{0}; k < a.column(); ++k) {
+        result.at(i, j) += a.at(i, k) * b.at(k, j);
       }
     }
   }
 
-  for (std::vector<int> row : result) {
-    for (int value : row) {
-      std::cout << value << " ";
-    }
-    std::cout << '\n';
-  }
+  return result;
 }
 
 int main() {
-  Matrix matrix_a{{1, 2, 3}, {4, 5, 6}};
-  Matrix matrix_b{{7, 8, 9}, {10, 11, 12}, {13, 14, 15}};
-  matmul(matrix_a, matrix_b);
+  Tensor matrix_a{{1, 2, 3, 4, 5, 6}, {2, 3}};
+  Tensor matrix_b{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, {3, 4}};
+  auto resultTensor = matmul(matrix_a, matrix_b);
+
+  for (int i{0}; i < resultTensor.row(); ++i) {
+    for (int j{0}; j < resultTensor.column(); ++j) {
+      std::cout << resultTensor.at(i, j) << " ";
+    }
+    std::cout << '\n';
+  }
 
   return 0;
 }
