@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <vector>
@@ -29,6 +30,10 @@ Tensor matmul(const Tensor &a, const Tensor &b) {
 }
 
 Tensor matadd(const Tensor &a, const Tensor &b) {
+  if (a.shape != b.shape) {
+    std::cerr << " Matrix can't be added together ";
+  }
+
   Tensor result{std::vector<float>(a.data.size()), a.shape};
   for (int i{0}; i < a.data.size(); ++i) {
     result.data[i] = a.data[i] + b.data[i];
@@ -44,13 +49,23 @@ Tensor SiLU(const Tensor &a) {
   return result;
 };
 
-void outputTensor(const Tensor &a) {
+void softmax(Tensor &a) {
   for (int i{0}; i < a.row(); ++i) {
+    float exp_sum{0};
+    float max_num =
+        *std::max_element(a.data.begin() + (i * a.column()),
+                          a.data.begin() + (i * a.column()) + a.column());
     for (int j{0}; j < a.column(); ++j) {
-      std::cout << a.at(i, j) << " ";
+      exp_sum += std::exp(a.at(i, j) - max_num);
     }
-    std::cout << '\n';
+    for (int k{0}; k < a.column(); ++k) {
+      a.at(i, k) = std::exp(a.at(i, k) - max_num) / exp_sum;
+      std::cout << a.at(i, k) << '\n';
+    }
   }
 }
 
-int main() { return 0; }
+int main() {
+  Tensor tensor_1{{101, 102, 103, 104, 105, 106}, {2, 3}};
+  softmax(tensor_1);
+}
