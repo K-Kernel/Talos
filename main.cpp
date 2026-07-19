@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <iostream>
 #include <vector>
@@ -30,9 +31,7 @@ Tensor matmul(const Tensor &a, const Tensor &b) {
 }
 
 Tensor matadd(const Tensor &a, const Tensor &b) {
-  if (a.shape != b.shape) {
-    std::cerr << " Matrix can't be added together ";
-  }
+  assert(a.shape == b.shape);
 
   Tensor result{std::vector<float>(a.data.size()), a.shape};
   for (int i{0}; i < a.data.size(); ++i) {
@@ -47,7 +46,7 @@ Tensor SiLU(const Tensor &a) {
     result.data[i] = result.data[i] / (1 + std::exp(-result.data[i]));
   }
   return result;
-};
+}
 
 void softmax(Tensor &a) {
   for (int i{0}; i < a.row(); ++i) {
@@ -60,7 +59,6 @@ void softmax(Tensor &a) {
     }
     for (int k{0}; k < a.column(); ++k) {
       a.at(i, k) = std::exp(a.at(i, k) - max_num) / exp_sum;
-      std::cout << a.at(i, k) << '\n';
     }
   }
 }
