@@ -4,11 +4,11 @@ A transformer inference engine in C++/CUDA, built from scratch. No PyTorch , no 
 ## Status
 - [x] Tensor(flat, row-major)
 - [x] Matrix multiplication, matrix sum and Sigmoid Linear unit 
-- [] Transpose , RSMNorm 
-- [] Weight loading 
-- [] Tokenizer
-- [] forward pass -> text generation
-- [] KV cache , quantization, CUDA
+- [ ] Transpose , RSMNorm 
+- [ ] Weight loading 
+- [ ] Tokenizer
+- [ ] forward pass -> text generation
+- [ ] KV cache , quantization, CUDA
 
 ## Build
 Do it later
