@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <iostream>
 #include <vector>
 
 struct Tensor {
@@ -62,7 +63,20 @@ void softmax(Tensor &a) {
   }
 }
 
+Tensor transpose(const Tensor &T) {
+  Tensor result{std::vector<float>(T.data.size(), 0), {T.column(), T.row()}};
+  for (int i{0}; i < T.row(); ++i) {
+    for (int j{0}; j < T.column(); ++j) {
+      result.at(i, j) = T.at(j, i);
+    }
+  };
+  for (float x : result.data) {
+    std::cout << x << '\n';
+  }
+  return result;
+};
+
 int main() {
-  Tensor tensor_1{{101, 102, 103, 104, 105, 106}, {2, 3}};
-  softmax(tensor_1);
+  Tensor tensor_test{{101, 102, 103, 104, 105, 106}, {2, 3}};
+  transpose(tensor_test);
 }

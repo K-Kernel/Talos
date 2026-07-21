@@ -1,0 +1,3 @@
+/Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles/ElderScroll.dir
+/Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles/edit_cache.dir
+/Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles/rebuild_cache.dir

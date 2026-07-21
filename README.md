@@ -12,6 +12,12 @@ A transformer inference engine in C++/CUDA, built from scratch. No PyTorch , no 
 
 ## Build
 Do it later
+``` cd build 
+    cmake ..
+    make
+    ./ElderScroll
+```
+
 
 ## Logs
 (link to my website or maybe some resource i use)
