@@ -16,13 +16,13 @@ struct Tensor {
   float &at(int r, int c) { return data[r * column() + c]; }
 };
 
-Tensor matmul(const Tensor &a, const Tensor &b) {
-  Tensor result{std::vector<float>(a.row() * b.column(), 0),
-                {a.shape[0], b.shape[1]}};
-  for (int i{0}; i < a.row(); ++i) {
+Tensor matmul(const Tensor &T, const Tensor &b) {
+  Tensor result{std::vector<float>(T.row() * b.column(), 0),
+                {T.shape[0], b.shape[1]}};
+  for (int i{0}; i < T.row(); ++i) {
     for (int j{0}; j < b.column(); ++j) {
-      for (int k{0}; k < a.column(); ++k) {
-        result.at(i, j) += a.at(i, k) * b.at(k, j);
+      for (int k{0}; k < T.column(); ++k) {
+        result.at(i, j) += T.at(i, k) * b.at(k, j);
       }
     }
   }
@@ -30,53 +30,66 @@ Tensor matmul(const Tensor &a, const Tensor &b) {
   return result;
 }
 
-Tensor matadd(const Tensor &a, const Tensor &b) {
-  assert(a.shape == b.shape);
+Tensor matadd(const Tensor &T, const Tensor &b) {
+  assert(T.shape == b.shape);
 
-  Tensor result{std::vector<float>(a.data.size()), a.shape};
-  for (int i{0}; i < a.data.size(); ++i) {
-    result.data[i] = a.data[i] + b.data[i];
+  Tensor result{std::vector<float>(T.data.size()), T.shape};
+  for (int i{0}; i < T.data.size(); ++i) {
+    result.data[i] = T.data[i] + b.data[i];
   }
   return result;
 }
 
-Tensor SiLU(const Tensor &a) {
-  Tensor result = a;
+Tensor SiLU(const Tensor &T) {
+  Tensor result = T;
   for (int i{0}; i < result.data.size(); ++i) {
     result.data[i] = result.data[i] / (1 + std::exp(-result.data[i]));
   }
   return result;
 }
 
-void softmax(Tensor &a) {
-  for (int i{0}; i < a.row(); ++i) {
+void softmax(Tensor &T) {
+  for (int i{0}; i < T.row(); ++i) {
     float exp_sum{0};
     float max_num =
-        *std::max_element(a.data.begin() + (i * a.column()),
-                          a.data.begin() + (i * a.column()) + a.column());
-    for (int j{0}; j < a.column(); ++j) {
-      exp_sum += std::exp(a.at(i, j) - max_num);
+        *std::max_element(T.data.begin() + (i * T.column()),
+                          T.data.begin() + (i * T.column()) + T.column());
+    for (int j{0}; j < T.column(); ++j) {
+      exp_sum += std::exp(T.at(i, j) - max_num);
     }
-    for (int k{0}; k < a.column(); ++k) {
-      a.at(i, k) = std::exp(a.at(i, k) - max_num) / exp_sum;
+    for (int k{0}; k < T.column(); ++k) {
+      T.at(i, k) = std::exp(T.at(i, k) - max_num) / exp_sum;
     }
   }
 }
 
 Tensor transpose(const Tensor &T) {
   Tensor result{std::vector<float>(T.data.size(), 0), {T.column(), T.row()}};
-  for (int i{0}; i < T.row(); ++i) {
-    for (int j{0}; j < T.column(); ++j) {
+  for (int i{0}; i < result.row(); ++i) {
+    for (int j{0}; j < result.column(); ++j) {
       result.at(i, j) = T.at(j, i);
     }
   };
-  for (float x : result.data) {
-    std::cout << x << '\n';
-  }
   return result;
-};
+}
+
+void rmsnorm(Tensor &T, const Tensor &W) {
+  for (int i{0}; i < T.row(); ++i) {
+    float mean{0};
+    for (int j{0}; j < T.column(); ++j) {
+      mean += T.at(i, j) * T.at(i, j) / T.column();
+    }
+    float rms{std::sqrt(mean) + 1e-5f};
+    for (int j{0}; j < T.column(); ++j) {
+      T.at(i, j) = (T.at(i, j) / rms) * W.data[j];
+    };
+  }
+}
 
 int main() {
   Tensor tensor_test{{101, 102, 103, 104, 105, 106}, {2, 3}};
   transpose(tensor_test);
+  Tensor tensor_test2{{1, 2, 3, 4}, {2, 2}};
+  Tensor weight{{1, 1, 1, 1}, {1, 4}};
+  rmsnorm(tensor_test2, weight);
 }
