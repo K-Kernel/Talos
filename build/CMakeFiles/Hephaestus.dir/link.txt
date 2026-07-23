@@ -1,0 +1,2 @@
+/usr/bin/ar qc libHephaestus.a CMakeFiles/Hephaestus.dir/ops.cpp.o
+/usr/bin/ranlib libHephaestus.a

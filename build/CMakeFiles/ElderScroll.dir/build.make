@@ -95,6 +95,7 @@ ElderScroll_EXTERNAL_OBJECTS =
 
 ElderScroll: CMakeFiles/ElderScroll.dir/main.cpp.o
 ElderScroll: CMakeFiles/ElderScroll.dir/build.make
+ElderScroll: libHephaestus.a
 ElderScroll: CMakeFiles/ElderScroll.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ElderScroll"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ElderScroll.dir/link.txt --verbose=$(VERBOSE)

@@ -1,5 +1,6 @@
 #include "ops.h"
 #include <cassert>
+#include <string>
 
 Tensor matmul(const Tensor &A, const Tensor &B) {
   Tensor result{std::vector<float>(A.row() * B.column(), 0),
@@ -70,3 +71,5 @@ void rmsnorm(Tensor &T, const Tensor &W) {
     };
   }
 }
+
+auto read_header(std::string file) { return file; }

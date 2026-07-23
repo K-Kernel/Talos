@@ -136,6 +136,19 @@ ElderScroll/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/build
 .PHONY : ElderScroll/fast
 
+#=============================================================================
+# Target rules for targets named Hephaestus
+
+# Build rule for target.
+Hephaestus: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Hephaestus
+.PHONY : Hephaestus
+
+# fast build rule for target.
+Hephaestus/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hephaestus.dir/build.make CMakeFiles/Hephaestus.dir/build
+.PHONY : Hephaestus/fast
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -160,6 +173,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+ops.o: ops.cpp.o
+.PHONY : ops.o
+
+# target to build an object file
+ops.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hephaestus.dir/build.make CMakeFiles/Hephaestus.dir/ops.cpp.o
+.PHONY : ops.cpp.o
+
+ops.i: ops.cpp.i
+.PHONY : ops.i
+
+# target to preprocess a source file
+ops.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hephaestus.dir/build.make CMakeFiles/Hephaestus.dir/ops.cpp.i
+.PHONY : ops.cpp.i
+
+ops.s: ops.cpp.s
+.PHONY : ops.s
+
+# target to generate assembly for a file
+ops.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hephaestus.dir/build.make CMakeFiles/Hephaestus.dir/ops.cpp.s
+.PHONY : ops.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -170,9 +207,13 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ElderScroll"
+	@echo "... Hephaestus"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... ops.o"
+	@echo "... ops.i"
+	@echo "... ops.s"
 .PHONY : help
 
 
