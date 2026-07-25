@@ -1,6 +1,8 @@
 #include "ops.h"
+#include "tensor.h"
 #include <cassert>
-#include <string>
+#include <fstream>
+#include <stdexcept>
 
 Tensor matmul(const Tensor &A, const Tensor &B) {
   Tensor result{std::vector<float>(A.row() * B.column(), 0),
@@ -72,4 +74,11 @@ void rmsnorm(Tensor &T, const Tensor &W) {
   }
 }
 
-auto read_header(std::string file) { return file; }
+Config readHeader(std::ifstream &file) {
+  Config header;
+  static_assert(sizeof(header) == 28, "Header must containt 7 int ");
+  file.read(reinterpret_cast<char *>(&header), sizeof(header));
+  if (!file)
+    throw std::runtime_error("Error reading the error");
+  return header;
+}

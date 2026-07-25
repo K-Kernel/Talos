@@ -12,3 +12,5 @@ struct Tensor {
   float at(int r, int c) const { return data[r * column() + c]; }
   float &at(int r, int c) { return data[r * column() + c]; }
 };
+
+struct Config {int dim, hidden_dim, n_layers, n_heads, n_kv_heads, vocab_size, seq_lean;};
