@@ -82,3 +82,20 @@ Config readHeader(std::ifstream &file) {
     throw std::runtime_error("Error reading the error");
   return header;
 }
+
+Tensor readTensor(std::ifstream &file, std::vector<int> Tshape) {
+  Tensor t;
+  t.shape = Tshape;
+
+  size_t n = 1;
+  for (int x : Tshape) {
+    n *= x;
+  }
+  t.data.resize(n);
+
+  file.read(reinterpret_cast<char *>(t.data.data()), n * sizeof(float));
+  if (!file) {
+    throw std::runtime_error("Couldn't read the file");
+  }
+  return t;
+}

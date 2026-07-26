@@ -5,7 +5,7 @@ A transformer inference engine in C++/CUDA, built from scratch. No PyTorch , no 
 - [x] Tensor(flat, row-major)
 - [x] Matrix multiplication, matrix sum and Sigmoid Linear unit 
 - [x] Transpose , RSMNorm 
-- [ ] Weight loading 
+- [x] Weight loading 
 - [ ] Tokenizer
 - [ ] forward pass -> text generation
 - [ ] KV cache , quantization, CUDA
@@ -13,9 +13,10 @@ A transformer inference engine in C++/CUDA, built from scratch. No PyTorch , no 
 ## Build
 Do it later
 ``` cd build 
-    cmake ..
+    make clean
     make
-    ./ElderScroll
+    cd ..
+    ./build/ElderScroll
 ```
 
 
