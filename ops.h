@@ -10,3 +10,6 @@ Tensor transpose(const Tensor &A);
 void rmsnorm(Tensor &T, const Tensor&W);
 Config readHeader(std::ifstream &file);
 Tensor readTensor(std::ifstream& file , std::vector<int> Tshape);
+transformerWeight weightLoader(std::ifstream &file, Config &headerConfig);
+std::vector<float> embLookup(unsigned int token_id, const Tensor &embedding, int dim);
+std::vector<float> RoPE(std::vector<float> vector, int position);
