@@ -107,7 +107,7 @@ transformerWeight weightLoader(std::ifstream &file, Config &headerConfig) {
 
   weight.emb = readTensor(file, {headerConfig.vocab_size, headerConfig.dim});
   for (int i{0}; i < L; ++i) {
-    weight.rms_att_weight[i] = readTensor(file, {headerConfig.dim});
+    weight.rms_att_weight[i] = readTensor(file, {1, headerConfig.dim});
   };
   for (int i{0}; i < L; ++i) {
     weight.wq[i] = readTensor(file, {headerConfig.dim, headerConfig.dim});
@@ -124,7 +124,7 @@ transformerWeight weightLoader(std::ifstream &file, Config &headerConfig) {
     weight.wo[i] = readTensor(file, {headerConfig.dim, headerConfig.dim});
   }
   for (int i{0}; i < L; ++i) {
-    weight.rms_fnn_weight[i] = readTensor(file, {headerConfig.dim});
+    weight.rms_fnn_weight[i] = readTensor(file, {1, headerConfig.dim});
   }
   for (int i{0}; i < L; ++i) {
     weight.w1[i] =
@@ -139,7 +139,7 @@ transformerWeight weightLoader(std::ifstream &file, Config &headerConfig) {
         readTensor(file, {headerConfig.hidden_dim, headerConfig.dim});
   }
 
-  weight.rms_final_weight = readTensor(file, {headerConfig.dim});
+  weight.rms_final_weight = readTensor(file, {1, headerConfig.dim});
   Tensor freq_real = readTensor(file, {headerConfig.seq_len, head_size / 2});
   Tensor freq_imag = readTensor(file, {headerConfig.seq_len, head_size / 2});
 
@@ -152,23 +152,23 @@ std::vector<float> embLookup(unsigned int token_id, const Tensor &embedding,
   return std::vector<float>(start, start + dim);
 };
 
-std::vector<float> RoPE(std::vector<float> vector, int position) {
-  int head_size = vector.size();
+void RoPE(std::vector<float> &buffer, int head_start, int head_size,
+          int position) {
   if (!(head_size % 2 == 0)) {
     throw std::runtime_error("The tensor is not even");
   };
 
-  for (size_t i{0}; i < vector.size(); i += 2) {
+  for (size_t i{0}; i < head_size; i += 2) {
+    int idx = head_start + i;
     int pair_index{static_cast<int>(i) / 2};
     float frequency{1.0f /
                     std::pow(10000.0f, (float)(2 * pair_index) / head_size)};
     float theta{position * frequency};
 
-    float x = vector[i] * std::cos(theta) - vector[i + 1] * std::sin(theta);
-    float y = vector[i] * std::sin(theta) + vector[i + 1] * std::cos(theta);
+    float x = buffer[idx] * std::cos(theta) - buffer[i + 1] * std::sin(theta);
+    float y = buffer[idx] * std::sin(theta) + buffer[i + 1] * std::cos(theta);
 
-    vector[i] = x;
-    vector[i + 1] = y;
+    buffer[i] = x;
+    buffer[i + 1] = y;
   }
-  return vector;
 };

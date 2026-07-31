@@ -149,6 +149,19 @@ Hephaestus/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hephaestus.dir/build.make CMakeFiles/Hephaestus.dir/build
 .PHONY : Hephaestus/fast
 
+#=============================================================================
+# Target rules for targets named run
+
+# Build rule for target.
+run: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run
+.PHONY : run
+
+# fast build rule for target.
+run/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/build
+.PHONY : run/fast
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -206,6 +219,7 @@ help:
 	@echo "... codegen"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... run"
 	@echo "... ElderScroll"
 	@echo "... Hephaestus"
 	@echo "... main.o"

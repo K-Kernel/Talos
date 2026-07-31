@@ -9,3 +9,6 @@ target_link_libraries(ElderScroll PRIVATE Hephaestus)
 target_compile_options(ElderScroll PRIVATE -Wall -Wextra -fsanitize=address -g)
 target_link_options(ElderScroll PRIVATE -fsanitize=address)
 
+# Add make run
+add_custom_target(run COMMAND ElderScroll DEPENDS ElderScroll WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+

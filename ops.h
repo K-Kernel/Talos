@@ -12,4 +12,4 @@ Config readHeader(std::ifstream &file);
 Tensor readTensor(std::ifstream& file , std::vector<int> Tshape);
 transformerWeight weightLoader(std::ifstream &file, Config &headerConfig);
 std::vector<float> embLookup(unsigned int token_id, const Tensor &embedding, int dim);
-std::vector<float> RoPE(std::vector<float> vector, int position);
+void RoPE(std::vector<float> &buffer, int head_start, int head_size,int position);
