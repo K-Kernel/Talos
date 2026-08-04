@@ -18,7 +18,7 @@ Tensor matmul(const Tensor &A, const Tensor &B) {
   return result;
 }
 
-Tensor matadd(const Tensor &A, const Tensor &B) {
+Tensor matadd_elementwise(const Tensor &A, const Tensor &B) {
   assert(A.shape == B.shape);
 
   Tensor result{std::vector<float>(A.data.size()), A.shape};
@@ -172,3 +172,11 @@ void RoPE(std::vector<float> &buffer, int head_start, int head_size,
     buffer[i + 1] = y;
   }
 };
+
+Tensor matmul_elementwise(const Tensor &A, const Tensor &B) {
+  assert(A.shape == B.shape);
+  Tensor result{std::vector<float>(A.data.size()), A.shape};
+  for (size_t i = 0; i < A.data.size(); ++i)
+    result.data[i] = A.data[i] * A.data[i];
+  return result;
+}
