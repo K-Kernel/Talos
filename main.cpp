@@ -2,8 +2,13 @@
 #include "tensor.hpp"
 #include <cassert>
 #include <cmath>
+#include <cstddef>
+#include <fstream>
+#include <ios>
 #include <iostream>
 #include <numeric>
+#include <string>
+#include <vector>
 
 int main() {
   Tensor emb, rms_final_weight;
@@ -17,7 +22,7 @@ int main() {
             << weight.rms_att_weight[0].row() << '\n';
 
   Tensor x;
-  x.data = embLookup(48, weight.emb, headerConfig.dim);
+  x.data = embLookup(1, weight.emb, headerConfig.dim);
   x.shape = {1, headerConfig.dim};
 
   for (int layer{0}; layer < headerConfig.n_layers; ++layer) {
@@ -82,11 +87,35 @@ int main() {
 
     Tensor ffn_out = matmul(gated, transpose(weight.w2[layer]));
     x = matadd_elementwise(x, ffn_out);
-
-    rmsnorm(x, weight.rms_final_weight);
-    Tensor logits = matmul(x, transpose(weight.emb));
-    int next_token = std::max_element(logits.data.begin(), logits.data.end()) -
-                     logits.data.begin();
-    std::cout << "next token id: " << next_token << '\n';
   }
+  rmsnorm(x, weight.rms_final_weight);
+  Tensor logits = matmul(x, transpose(weight.emb));
+  int next_token = std::max_element(logits.data.begin(), logits.data.end()) -
+                   logits.data.begin();
+  std::cout << "next token id: " << next_token << '\n';
+
+  std::ifstream tokenizer("tokenizer.bin", std::ios_base::binary);
+
+  int max_token_length;
+  tokenizer.read(reinterpret_cast<char *>(&max_token_length),
+                 sizeof(max_token_length));
+  std::vector<std::string> vocab(32000);
+
+  std::cout << max_token_length << '\n';
+  for (size_t i{0}; i < vocab.size(); ++i) {
+    float score;
+    int len;
+
+    tokenizer.read(reinterpret_cast<char *>(&score), sizeof(score));
+    tokenizer.read(reinterpret_cast<char *>(&len), sizeof(len));
+
+    std::string s(len, '\0');
+    tokenizer.read(reinterpret_cast<char *>(&s[0]), len);
+    vocab[i] = s;
+  }
+
+  for (int i{0}; i < 5; ++i) {
+    std::cout << vocab[i] << '\n';
+  }
+  std::cout << "predicted: [" << vocab[next_token] << "]\n";
 }
