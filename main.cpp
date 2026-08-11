@@ -1,5 +1,6 @@
 #include "ops.hpp"
 #include "tensor.hpp"
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
@@ -75,6 +76,7 @@ int main() {
   Tensor emb, rms_final_weight;
 
   std::ifstream file("stories15M.bin", std::ios_base::binary);
+  std::ifstream tokenizer("tokenizer.bin", std::ios_base::binary);
 
   Config headerConfig = readHeader(file);
 
@@ -82,25 +84,6 @@ int main() {
 
   std::vector<Tensor> key_cache(headerConfig.n_layers),
       value_cache(headerConfig.n_layers);
-
-  for (int l = 0; l < headerConfig.n_layers; ++l) {
-    int n{headerConfig.seq_len * headerConfig.dim};
-    key_cache[l] = Tensor{std::vector<float>(n, 0),
-                          {headerConfig.seq_len, headerConfig.dim}};
-    value_cache[l] = Tensor{std::vector<float>(n, 0),
-                            {headerConfig.seq_len, headerConfig.dim}};
-  }
-
-  int token{1};
-  for ()
-
-    Tensor logits = foward(1, 0, weight, headerConfig, key_cache, value_cache);
-
-  int next_token = std::max_element(logits.data.begin(), logits.data.end()) -
-                   logits.data.begin();
-  std::cout << "next token id: " << next_token << '\n';
-
-  std::ifstream tokenizer("tokenizer.bin", std::ios_base::binary);
 
   int max_token_length;
   tokenizer.read(reinterpret_cast<char *>(&max_token_length),
@@ -120,8 +103,21 @@ int main() {
     vocab[i] = s;
   }
 
-  for (int i{0}; i < 5; ++i) {
-    std::cout << vocab[i] << '\n';
+  for (int l = 0; l < headerConfig.n_layers; ++l) {
+    int n{headerConfig.seq_len * headerConfig.dim};
+    key_cache[l] = Tensor{std::vector<float>(n, 0),
+                          {headerConfig.seq_len, headerConfig.dim}};
+    value_cache[l] = Tensor{std::vector<float>(n, 0),
+                            {headerConfig.seq_len, headerConfig.dim}};
   }
-  std::cout << "predicted: [" << vocab[next_token] << "]\n";
+
+  int token{1};
+  for (int pos{0}; pos < 100; ++pos) {
+    Tensor logits{
+        foward(token, pos, weight, headerConfig, key_cache, value_cache)};
+    int next = std::max_element(logits.data.begin(), logits.data.end()) -
+               logits.data.begin();
+    std::cout << vocab[next] << std::flush;
+    token = next;
+  }
 }
