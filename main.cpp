@@ -31,6 +31,11 @@ Tensor foward(int token, int pos, const transformerWeight &weight,
       RoPE(k.data, head_size * h, head_size, pos);
     };
 
+    for (int d{0}; d < config.dim; ++d) {
+      key_cache[layer].at(pos, d) = k.data[d];
+      value_cache[layer].at(pos, d) = v.data[d];
+    }
+
     Tensor output{std::vector<float>(config.dim, 0), {1, config.dim}};
 
     for (int h{0}; h < config.n_heads; ++h) {

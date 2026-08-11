@@ -158,18 +158,18 @@ void RoPE(std::vector<float> &buffer, int head_start, int head_size,
     throw std::runtime_error("The tensor is not even");
   };
 
-  for (size_t i{0}; i < head_size; i += 2) {
+  for (int i{0}; i < head_size; i += 2) {
     int idx = head_start + i;
-    int pair_index{static_cast<int>(i) / 2};
+    int pair_index{i / 2};
     float frequency{1.0f /
                     std::pow(10000.0f, (float)(2 * pair_index) / head_size)};
     float theta{position * frequency};
 
-    float x = buffer[idx] * std::cos(theta) - buffer[i + 1] * std::sin(theta);
-    float y = buffer[idx] * std::sin(theta) + buffer[i + 1] * std::cos(theta);
+    float x = buffer[idx] * std::cos(theta) - buffer[idx + 1] * std::sin(theta);
+    float y = buffer[idx] * std::sin(theta) + buffer[idx + 1] * std::cos(theta);
 
-    buffer[i] = x;
-    buffer[i + 1] = y;
+    buffer[idx] = x;
+    buffer[idx + 1] = y;
   }
 };
 
@@ -177,6 +177,6 @@ Tensor matmul_elementwise(const Tensor &A, const Tensor &B) {
   assert(A.shape == B.shape);
   Tensor result{std::vector<float>(A.data.size()), A.shape};
   for (size_t i = 0; i < A.data.size(); ++i)
-    result.data[i] = A.data[i] * A.data[i];
+    result.data[i] = A.data[i] * B.data[i];
   return result;
 }
