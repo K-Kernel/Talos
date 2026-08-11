@@ -1,6 +1,11 @@
 # The tales of Talos
-A transformer inference engine in C++/CUDA, built from scratch. No PyTorch , no BLAS every operation implemented by hand as a learning project.
+An LLM inference engine written from scratch in C++. No PyTorch , no BLAS every operation implemented by hand.
 
+Run Llama-2 architecture models. Currently: Stories15M (15M params, TinyStories)
+
+## Example
+$ ./ElderScroll
+Once upon a time, there was a little girl named Lily...
 ## Status
 - [x] Tensor(flat, row-major)
 - [x] Matrix multiplication, matrix sum and Sigmoid Linear unit 
@@ -14,42 +19,18 @@ A transformer inference engine in C++/CUDA, built from scratch. No PyTorch , no 
 ## Build
 
 ```
-    cd build 
-    make clean
-    make run
+    git clone ...
+    cmake -B build
+    cmake --build build
+    #download stories15M.bin and tokenizer.bin into the project root:
+    # https://github.com/karpathy/llama2.c
+    ./build ElderScrool
 ```
 
-
-## Logs
-(link to my website or maybe some resource i use)
-
-- Fri 7 Aug: I finished the foward , and print once the first word of my transformer, the final step was reading the tokenizer binary file to decode the exact word it predict, the file is divided into a header that contain the maximum size that a string can take , a float ( that i ignor), a len and the bytes of the string , what i do its going thorugh the binary file reading the len and then reading the strign and writing direct into the string buffer , rememeber that string are jsust a list of character connected by points .
-
-- Tue 11 Aug: Some fucntion like SiLU, softmax and transpose could be done diretcly into the Tensor but they retrun so its possible to chain operations.
-
-## Docs
-
-### Build/
-This is the file where i run the make to build and run my cpp code using the command ``` make clean ``` and ```make run ```. Everytime I change the CMakeList.txt I need to run ``` cmake --build build ``` to rebuild everything.
-
-### main.cpp
-This file is the main entry point , it's the file that is run when i do ```make run ``` , this file is where i do most of the test and write the code before extracting it into functions.
-
-### ops.cpp
-This file is where most of the function live. It has 12 function:
-- matmul: this function takes 2 tensors and return a new tensor. It perform matrix multiplicaiton usign the naive implementation O(n^3)
-
-- matadd_elementwise: take two tensors. It iterate through the data buffer and add the elements of one into the other. Return a a result tensor 
-
-- SiLU: it takes a tensor. It iterate through the data dividing each x to 1 plus the euler(e) to the exponent of x. It returns a new tenosr with the values modified
-
-- softmax: It takes one tensor. It goes through each row , pick the largest number of that row, calculate the sum fo the exponents minus the sum ( so it doesn't overflow). Then it takes x minus teh biggest number ove the sum of exponents. This happens inside the vectore meaning it return nothing , using the reference of the tensor being passed.
+## How it works
+A token id becomes a 288-dim vector via embedding lookup. That vector passes through 6 identical blocks: RMSNorm, then multi-head attention (6 heads of 48 dims, with rotary position embeddings applied to queries and keys), then RMSNorm again, then a SwiGLU feed-forward. Each sub-block adds its output back into the residual stream. After the final block, a last RMSNorm and a matmul against the (shared) embedding table produce 32,000 logits, and argmax picks the next token.
+All tensors are flat row-major std::vector<float> with an explicit shape — one contiguous buffer, so weight loading is a single read() per tensor. Keys and values are cached per layer across positions, so each generation step only computes the current token.
 
 
-- Transpose: It takes one tensor. It transpose one tensor , transpose means changing the rows with the correspoding columns. Then returns the result , it does not change the tensor 
-
-- rmsnorm: takes a tensor and a tensor of weight. It then apply root mean square layer normalisation into the tensor directly changing the results
-
-
-
-
+## Devlogs
+- [The bug that wrote over a string's guts](docs/devlog/01-tokenizer-bug.md)
