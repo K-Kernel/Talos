@@ -24,3 +24,4 @@ struct transformerWeight {
       : rms_att_weight(L), wq(L), wk(L), wv(L), wo(L), rms_fnn_weight(L), w1(L),
         w2(L), w3(L) {}
 };
+
