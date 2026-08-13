@@ -1,4 +1,5 @@
 CMakeFiles/ElderScroll.dir/main.cpp.o: \
+  /Library/Developer/CommandLineTools/usr/lib/clang/21/share/asan_ignorelist.txt \
   /Users/blackprince/Desktop/Projects/Talos/main.cpp \
   /Users/blackprince/Desktop/Projects/Talos/ops.hpp \
   /Users/blackprince/Desktop/Projects/Talos/tensor.hpp \
@@ -805,7 +806,7 @@ CMakeFiles/ElderScroll.dir/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/print \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cassert \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/chrono \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__chrono/file_clock.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/forward_list \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream

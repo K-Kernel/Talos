@@ -1,13 +1,8 @@
 #include "ops.hpp"
 #include "tensor.hpp"
-#include <algorithm>
-#include <cassert>
-#include <cstddef>
-#include <fstream>
-#include <ios>
+#include <chrono>
 #include <iostream>
 #include <string>
-#include <vector>
 
 int main() {
   Tensor emb, rms_final_weight;
@@ -47,13 +42,19 @@ int main() {
                             {headerConfig.seq_len, headerConfig.dim}};
   }
 
+  const int N{256};
+  std::string out;
   int token{1};
-  for (int pos{0}; pos < 100; ++pos) {
+
+  auto t0{std::chrono::steady_clock::now()};
+  for (int pos{0}; pos < N; ++pos) {
     Tensor logits{
         foward(token, pos, weight, headerConfig, key_cache, value_cache)};
-    int next = std::max_element(logits.data.begin(), logits.data.end()) -
-               logits.data.begin();
-    std::cout << vocab[next] << std::flush;
-    token = next;
+    token = std::max_element(logits.data.begin(), logits.data.end()) -
+            logits.data.begin();
+    out += vocab[token];
   }
+  auto t1{std::chrono::steady_clock::now()};
+  double sec{std::chrono::duration<double>(t1 - t0).count()};
+  std::cout << out << "\n\n" << N / sec << "tok/s\n";
 }
