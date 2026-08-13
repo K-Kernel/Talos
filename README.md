@@ -33,6 +33,16 @@ Once upon a time, there was a little girl named Lily...
 A token id becomes a 288-dim vector via embedding lookup. That vector passes through 6 identical blocks: RMSNorm, then multi-head attention (6 heads of 48 dims, with rotary position embeddings applied to queries and keys), then RMSNorm again, then a SwiGLU feed-forward. Each sub-block adds its output back into the residual stream. After the final block, a last RMSNorm and a matmul against the (shared) embedding table produce 32,000 logits, and argmax picks the next token.
 All tensors are flat row-major std::vector<float> with an explicit shape — one contiguous buffer, so weight loading is a single read() per tensor. Keys and values are cached per layer across positions, so each generation step only computes the current token.
 
+## Performance
+Baseline before any optimisation:
+
+|confing| Token/sec|
+|---|---|
+|stories15M, single-threaded, -03, Apple M-series | 34.3|
+
+measured over 256 greedy-decoded tokens, median of 4 runs (spread < 1%).
+Weight loading excluded. 30MFLOPs/token ->  ~1.04 GFLOP/s
+
 
 ## Devlogs
 - [The bug that wrote over a string's guts](docs/devlog/01-tokenizer-bug.md)
