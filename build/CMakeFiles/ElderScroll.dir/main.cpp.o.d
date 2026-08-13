@@ -1,5 +1,4 @@
 CMakeFiles/ElderScroll.dir/main.cpp.o: \
-  /Library/Developer/CommandLineTools/usr/lib/clang/21/share/asan_ignorelist.txt \
   /Users/blackprince/Desktop/Projects/Talos/main.cpp \
   /Users/blackprince/Desktop/Projects/Talos/ops.hpp \
   /Users/blackprince/Desktop/Projects/Talos/tensor.hpp \
@@ -808,6 +807,5 @@ CMakeFiles/ElderScroll.dir/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cassert \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_assert.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream

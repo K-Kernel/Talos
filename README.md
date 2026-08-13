@@ -14,6 +14,8 @@ Once upon a time, there was a little girl named Lily...
 - [x] Tokenizer
 - [x] forward pass -> text generation
 - [x] KV cache
+- [ ] Benchmark
+- [ ] optimise 
 - [ ] quantization, CUDA
 
 ## Build
