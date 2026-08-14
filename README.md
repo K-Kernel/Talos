@@ -44,8 +44,8 @@ Baseline before any optimisation:
 measured over 256 greedy-decoded tokens, median of 4 runs (spread < 1%).
 Weight loading excluded. 30MFLOPs/token ->  ~1.04 GFLOP/s
 Transpose takes : 0.008915 seconds
-matvec gave an speed up of 4.5x
 
+Replaced per-token weight transposes with a matvec reading weights in their natural (out, in) layout — removes ~61 MB/token of copying and makes the inner loop vectorizable
 
 ## Devlogs
 - [The bug that wrote over a string's guts](docs/devlog/01-tokenizer-bug.md)
