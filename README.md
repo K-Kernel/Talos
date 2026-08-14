@@ -42,6 +42,7 @@ Baseline before any optimisation:
 
 measured over 256 greedy-decoded tokens, median of 4 runs (spread < 1%).
 Weight loading excluded. 30MFLOPs/token ->  ~1.04 GFLOP/s
+Transpose takes : 0.008915 seconds
 
 
 ## Devlogs

@@ -6,7 +6,6 @@ Tensor matmul(const Tensor &A, const Tensor &B);
 Tensor matadd_elementwise(const Tensor &A, const Tensor &B);
 Tensor SiLU(const Tensor &A);
 void softmax(Tensor &A);
-Tensor transpose(const Tensor &A);
 void rmsnorm(Tensor &T, const Tensor&W);
 Config readHeader(std::ifstream &file);
 Tensor readTensor(std::ifstream& file , std::vector<int> Tshape);

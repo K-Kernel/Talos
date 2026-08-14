@@ -2,6 +2,7 @@
 #include "tensor.hpp"
 #include <cassert>
 #include <fstream>
+#include <iostream>
 #include <stdexcept>
 
 Tensor matmul(const Tensor &A, const Tensor &B) {
@@ -18,6 +19,20 @@ Tensor matmul(const Tensor &A, const Tensor &B) {
   return result;
 }
 
+Tensor matvec(const Tensor &A, const Tensor &W) {
+  assert(static_cast<int>(A.data.size()) == W.column());
+  Tensor result{std::vector<float>(W.row(), 0), {1, W.row()}};
+
+  for (int i{0}; i < W.row(); i++) {
+    float sum{0};
+    for (int k{0}; k < W.column(); ++k) {
+      sum += W.at(i, k) * A.data[k];
+    }
+    result.data[i] = sum;
+  }
+
+  return result;
+}
 Tensor matadd_elementwise(const Tensor &A, const Tensor &B) {
   assert(A.shape == B.shape);
 
@@ -49,16 +64,6 @@ void softmax(Tensor &A) {
       A.at(i, k) = std::exp(A.at(i, k) - max_num) / exp_sum;
     }
   }
-}
-
-Tensor transpose(const Tensor &A) {
-  Tensor result{std::vector<float>(A.data.size(), 0), {A.column(), A.row()}};
-  for (int i{0}; i < result.row(); ++i) {
-    for (int j{0}; j < result.column(); ++j) {
-      result.at(i, j) = A.at(j, i);
-    }
-  };
-  return result;
 }
 
 void rmsnorm(Tensor &T, const Tensor &W) {
@@ -180,6 +185,7 @@ Tensor matmul_elementwise(const Tensor &A, const Tensor &B) {
     result.data[i] = A.data[i] * B.data[i];
   return result;
 }
+
 Tensor foward(int token, int pos, const transformerWeight &weight,
               const Config &config, std::vector<Tensor> &key_cache,
               std::vector<Tensor> &value_cache) {
@@ -192,9 +198,10 @@ Tensor foward(int token, int pos, const transformerWeight &weight,
   for (int layer{0}; layer < config.n_layers; ++layer) {
     Tensor T_prime{T};
     rmsnorm(T_prime, weight.rms_att_weight[layer]);
-    Tensor q = matmul(T_prime, transpose(weight.wq[layer]));
-    Tensor k = matmul(T_prime, transpose(weight.wk[layer]));
-    Tensor v = matmul(T_prime, transpose(weight.wv[layer]));
+
+    Tensor q = matvec(T_prime, weight.wq[layer]);
+    Tensor k = matvec(T_prime, weight.wk[layer]);
+    Tensor v = matvec(T_prime, weight.wv[layer]);
 
     for (int h{0}; h < config.n_heads; ++h) {
       RoPE(q.data, head_size * h, head_size, pos);
@@ -227,22 +234,22 @@ Tensor foward(int token, int pos, const transformerWeight &weight,
         output.data[h * head_size + d] = sum;
       }
     }
-    Tensor att_out = matmul(output, transpose(weight.wo[layer]));
+    Tensor att_out = matvec(output, weight.wo[layer]);
     T = matadd_elementwise(T, att_out);
 
     Tensor T_ffn{T};
     rmsnorm(T_ffn, weight.rms_fnn_weight[layer]);
 
-    Tensor gate = matmul(T_ffn, transpose(weight.w1[layer]));
-    Tensor up = matmul(T_ffn, transpose(weight.w3[layer]));
+    Tensor gate = matvec(T_ffn, weight.w1[layer]);
+    Tensor up = matvec(T_ffn, weight.w3[layer]);
 
     gate = SiLU(gate);
     Tensor gated{matmul_elementwise(gate, up)};
 
-    Tensor ffn_out = matmul(gated, transpose(weight.w2[layer]));
+    Tensor ffn_out = matvec(gated, weight.w2[layer]);
     T = matadd_elementwise(T, ffn_out);
   }
 
   rmsnorm(T, weight.rms_final_weight);
-  return matmul(T, transpose(weight.emb)); // logits tensor
+  return matvec(T, weight.emb); // logits tensor
 }
