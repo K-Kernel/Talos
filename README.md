@@ -36,13 +36,15 @@ All tensors are flat row-major std::vector<float> with an explicit shape — one
 ## Performance
 Baseline before any optimisation:
 
-|confing| Token/sec|
-|---|---|
-|stories15M, single-threaded, -03, Apple M-series | 34.3|
+|confing| Token/sec| ms/token |GFLOP/s|
+|---|---|---|---|
+|stories15M, single-threaded, -03, Apple M-series | 34.3| 29.2 | 1.40|
+|natural-layout matvec| 154.6 | 6.47 | 4.70|
 
 measured over 256 greedy-decoded tokens, median of 4 runs (spread < 1%).
 Weight loading excluded. 30MFLOPs/token ->  ~1.04 GFLOP/s
 Transpose takes : 0.008915 seconds
+matvec gave an speed up of 4.5x
 
 
 ## Devlogs
