@@ -2,7 +2,6 @@
 #include "tensor.hpp"
 #include <fstream>
 
-Tensor matmul(const Tensor &A, const Tensor &B);
 Tensor matadd_elementwise(const Tensor &A, const Tensor &B);
 Tensor SiLU(const Tensor &A);
 void softmax(Tensor &A);

@@ -5,20 +5,6 @@
 #include <iostream>
 #include <stdexcept>
 
-Tensor matmul(const Tensor &A, const Tensor &B) {
-  Tensor result{std::vector<float>(A.row() * B.column(), 0),
-                {A.shape[0], B.shape[1]}};
-  for (int i{0}; i < A.row(); ++i) {
-    for (int j{0}; j < B.column(); ++j) {
-      for (int k{0}; k < A.column(); ++k) {
-        result.at(i, j) += A.at(i, k) * B.at(k, j);
-      }
-    }
-  }
-
-  return result;
-}
-
 Tensor matvec(const Tensor &A, const Tensor &W) {
   assert(static_cast<int>(A.data.size()) == W.column());
   Tensor result{std::vector<float>(W.row(), 0), {1, W.row()}};

@@ -5,6 +5,7 @@ Run Llama-2 architecture models. Currently: Stories15M (15M params, TinyStories)
 
 ## Example
 $ ./ElderScroll
+
 Once upon a time, there was a little girl named Lily...
 ## Status
 - [x] Tensor(flat, row-major)
@@ -49,3 +50,4 @@ Replaced per-token weight transposes with a matvec reading weights in their natu
 
 ## Devlogs
 - [The bug that wrote over a string's guts](docs/devlog/01-tokenizer-bug.md)
+- [Wrong prediction](docs/devlog/02-wrong-prediction.md)

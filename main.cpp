@@ -4,6 +4,13 @@
 #include <iostream>
 #include <string>
 
+std::string decode(const std::string &piece) {
+  if (piece.size() == 6 && piece.compare(0, 3, "<0x") == 0 && piece[5] == '>')
+    return std::string(
+        1, static_cast<char>(std::stoi(piece.substr(3, 2), nullptr, 16)));
+  return piece;
+}
+
 int main() {
   Tensor emb, rms_final_weight;
 
@@ -52,6 +59,9 @@ int main() {
         foward(token, pos, weight, headerConfig, key_cache, value_cache)};
     token = std::max_element(logits.data.begin(), logits.data.end()) -
             logits.data.begin();
+    if (token == 1) {
+      break;
+    }
     out += vocab[token];
   }
   auto t1{std::chrono::steady_clock::now()};
