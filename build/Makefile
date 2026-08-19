@@ -124,19 +124,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ElderScroll
-
-# Build rule for target.
-ElderScroll: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ElderScroll
-.PHONY : ElderScroll
-
-# fast build rule for target.
-ElderScroll/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/build
-.PHONY : ElderScroll/fast
-
-#=============================================================================
 # Target rules for targets named Hephaestus
 
 # Build rule for target.
@@ -148,6 +135,19 @@ Hephaestus: cmake_check_build_system
 Hephaestus/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hephaestus.dir/build.make CMakeFiles/Hephaestus.dir/build
 .PHONY : Hephaestus/fast
+
+#=============================================================================
+# Target rules for targets named ElderScroll
+
+# Build rule for target.
+ElderScroll: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ElderScroll
+.PHONY : ElderScroll
+
+# fast build rule for target.
+ElderScroll/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/build
+.PHONY : ElderScroll/fast
 
 #=============================================================================
 # Target rules for targets named run

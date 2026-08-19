@@ -4,9 +4,9 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/opt/homebrew/opt/libomp/include
 
-CXX_FLAGSarm64 = -O3 -DNDEBUG -arch arm64 -Wall -Wextra -fsanitize=address -g
+CXX_FLAGSarm64 = -O3 -DNDEBUG -std=gnu++23 -arch arm64 -Xpreprocessor -fopenmp
 
-CXX_FLAGS = -O3 -DNDEBUG -arch arm64 -Wall -Wextra -fsanitize=address -g
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++23 -arch arm64 -Xpreprocessor -fopenmp
 

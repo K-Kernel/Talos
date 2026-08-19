@@ -63,13 +63,13 @@ CMAKE_BINARY_DIR = /Users/blackprince/Desktop/Projects/Talos/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/ElderScroll.dir/all
 all: CMakeFiles/Hephaestus.dir/all
+all: CMakeFiles/ElderScroll.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/ElderScroll.dir/codegen
 codegen: CMakeFiles/Hephaestus.dir/codegen
+codegen: CMakeFiles/ElderScroll.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -77,42 +77,10 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/ElderScroll.dir/clean
 clean: CMakeFiles/Hephaestus.dir/clean
+clean: CMakeFiles/ElderScroll.dir/clean
 clean: CMakeFiles/run.dir/clean
 .PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/ElderScroll.dir
-
-# All Build rule for target.
-CMakeFiles/ElderScroll.dir/all: CMakeFiles/Hephaestus.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles --progress-num=1,2 "Built target ElderScroll"
-.PHONY : CMakeFiles/ElderScroll.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/ElderScroll.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ElderScroll.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles 0
-.PHONY : CMakeFiles/ElderScroll.dir/rule
-
-# Convenience name for target.
-ElderScroll: CMakeFiles/ElderScroll.dir/rule
-.PHONY : ElderScroll
-
-# codegen rule for target.
-CMakeFiles/ElderScroll.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles --progress-num=1,2 "Finished codegen for target ElderScroll"
-.PHONY : CMakeFiles/ElderScroll.dir/codegen
-
-# clean rule for target.
-CMakeFiles/ElderScroll.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/clean
-.PHONY : CMakeFiles/ElderScroll.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/Hephaestus.dir
@@ -145,6 +113,38 @@ CMakeFiles/Hephaestus.dir/codegen:
 CMakeFiles/Hephaestus.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Hephaestus.dir/build.make CMakeFiles/Hephaestus.dir/clean
 .PHONY : CMakeFiles/Hephaestus.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/ElderScroll.dir
+
+# All Build rule for target.
+CMakeFiles/ElderScroll.dir/all: CMakeFiles/Hephaestus.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles --progress-num=1,2 "Built target ElderScroll"
+.PHONY : CMakeFiles/ElderScroll.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/ElderScroll.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ElderScroll.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles 0
+.PHONY : CMakeFiles/ElderScroll.dir/rule
+
+# Convenience name for target.
+ElderScroll: CMakeFiles/ElderScroll.dir/rule
+.PHONY : ElderScroll
+
+# codegen rule for target.
+CMakeFiles/ElderScroll.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles --progress-num=1,2 "Finished codegen for target ElderScroll"
+.PHONY : CMakeFiles/ElderScroll.dir/codegen
+
+# clean rule for target.
+CMakeFiles/ElderScroll.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ElderScroll.dir/build.make CMakeFiles/ElderScroll.dir/clean
+.PHONY : CMakeFiles/ElderScroll.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/run.dir

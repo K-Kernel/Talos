@@ -60,4 +60,4 @@ The reason for this big improvement was the way matrix multiplication was struct
 
 But this teaches me a valuable lesson: memory layout isn't what you do afterwards, it decides which optimisations the compiler is permitted to attempt at all. 
 
-
+Then I deleted a dead function and got 16% faster. The old commit gave 154.8 tok/s, the new one 179.3, run minutes apart on the same machine. Nothing that executed had changed — removing matmul shifted every later function's address in the binary, and a hot loop's alignment in the instruction cache is worth that much. Which means my noise floor is around 16%, and any future "optimisation" smaller than that isn't measurable without controlling for layout.

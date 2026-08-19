@@ -9,7 +9,8 @@ Tensor matvec(const Tensor &A, const Tensor &W) {
   assert(static_cast<int>(A.data.size()) == W.column());
   Tensor result{std::vector<float>(W.row(), 0), {1, W.row()}};
 
-  for (int i{0}; i < W.row(); i++) {
+#pragma omp parallel for
+  for (int i = 0; i < W.row(); ++i) {
     float sum{0};
     for (int k{0}; k < W.column(); ++k) {
       sum += W.at(i, k) * A.data[k];
