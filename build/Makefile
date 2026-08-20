@@ -162,6 +162,19 @@ run/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/build
 .PHONY : run/fast
 
+#=============================================================================
+# Target rules for targets named run_threads
+
+# Build rule for target.
+run_threads: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_threads
+.PHONY : run_threads
+
+# fast build rule for target.
+run_threads/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_threads.dir/build.make CMakeFiles/run_threads.dir/build
+.PHONY : run_threads/fast
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -220,6 +233,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... run"
+	@echo "... run_threads"
 	@echo "... ElderScroll"
 	@echo "... Hephaestus"
 	@echo "... main.o"

@@ -80,6 +80,7 @@ preinstall:
 clean: CMakeFiles/Hephaestus.dir/clean
 clean: CMakeFiles/ElderScroll.dir/clean
 clean: CMakeFiles/run.dir/clean
+clean: CMakeFiles/run_threads.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -177,6 +178,38 @@ CMakeFiles/run.dir/codegen: CMakeFiles/ElderScroll.dir/all
 CMakeFiles/run.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/clean
 .PHONY : CMakeFiles/run.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/run_threads.dir
+
+# All Build rule for target.
+CMakeFiles/run_threads.dir/all: CMakeFiles/ElderScroll.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_threads.dir/build.make CMakeFiles/run_threads.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_threads.dir/build.make CMakeFiles/run_threads.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles --progress-num= "Built target run_threads"
+.PHONY : CMakeFiles/run_threads.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/run_threads.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_threads.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles 0
+.PHONY : CMakeFiles/run_threads.dir/rule
+
+# Convenience name for target.
+run_threads: CMakeFiles/run_threads.dir/rule
+.PHONY : run_threads
+
+# codegen rule for target.
+CMakeFiles/run_threads.dir/codegen: CMakeFiles/ElderScroll.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_threads.dir/build.make CMakeFiles/run_threads.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/blackprince/Desktop/Projects/Talos/build/CMakeFiles --progress-num= "Finished codegen for target run_threads"
+.PHONY : CMakeFiles/run_threads.dir/codegen
+
+# clean rule for target.
+CMakeFiles/run_threads.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_threads.dir/build.make CMakeFiles/run_threads.dir/clean
+.PHONY : CMakeFiles/run_threads.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

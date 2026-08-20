@@ -2,7 +2,7 @@
 #include "tensor.hpp"
 #include <chrono>
 #include <iostream>
-#include <string>
+#include <omp.h>
 
 std::string decode(const std::string &piece) {
   if (piece.size() == 6 && piece.compare(0, 3, "<0x") == 0 && piece[5] == '>')
@@ -67,4 +67,6 @@ int main() {
   auto t1{std::chrono::steady_clock::now()};
   double sec{std::chrono::duration<double>(t1 - t0).count()};
   std::cout << out << "\n\n" << N / sec << "tok/s\n";
+
+  printProfile(N);
 }

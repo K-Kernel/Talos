@@ -18,5 +18,19 @@ target_link_libraries(Hephaestus      PUBLIC ${LIBOMP}/lib/libomp.dylib)
 add_executable(ElderScroll main.cpp)
 target_link_libraries(ElderScroll PRIVATE Hephaestus)
 
-add_custom_target(run COMMAND ElderScroll DEPENDS ElderScroll
-                  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+add_custom_target(run
+  COMMAND ${CMAKE_COMMAND} -E env OMP_NUM_THREADS=4 $<TARGET_FILE:ElderScroll>
+  DEPENDS ElderScroll WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+add_custom_target(run_threads
+    COMMAND ${CMAKE_COMMAND} -E env OMP_NUM_THREADS=1 $<TARGET_FILE:ElderScroll>
+    COMMAND ${CMAKE_COMMAND} -E env OMP_NUM_THREADS=2 $<TARGET_FILE:ElderScroll>
+    COMMAND ${CMAKE_COMMAND} -E env OMP_NUM_THREADS=3 $<TARGET_FILE:ElderScroll>
+    COMMAND ${CMAKE_COMMAND} -E env OMP_NUM_THREADS=4 $<TARGET_FILE:ElderScroll>
+    COMMAND ${CMAKE_COMMAND} -E env OMP_NUM_THREADS=5 $<TARGET_FILE:ElderScroll>
+    COMMAND ${CMAKE_COMMAND} -E env OMP_NUM_THREADS=6 $<TARGET_FILE:ElderScroll>
+    COMMAND ${CMAKE_COMMAND} -E env OMP_NUM_THREADS=7 $<TARGET_FILE:ElderScroll>
+    COMMAND ${CMAKE_COMMAND} -E env OMP_NUM_THREADS=8 $<TARGET_FILE:ElderScroll>
+    DEPENDS ElderScroll
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)

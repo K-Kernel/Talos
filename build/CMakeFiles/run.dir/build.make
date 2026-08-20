@@ -67,7 +67,7 @@ include CMakeFiles/run.dir/compiler_depend.make
 include CMakeFiles/run.dir/progress.make
 
 CMakeFiles/run: ElderScroll
-	cd /Users/blackprince/Desktop/Projects/Talos && /Users/blackprince/Desktop/Projects/Talos/build/ElderScroll
+	cd /Users/blackprince/Desktop/Projects/Talos && /opt/homebrew/bin/cmake -E env OMP_NUM_THREADS=4 /Users/blackprince/Desktop/Projects/Talos/build/ElderScroll
 
 CMakeFiles/run.dir/codegen:
 .PHONY : CMakeFiles/run.dir/codegen

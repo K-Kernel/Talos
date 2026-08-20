@@ -1,9 +1,12 @@
 #include "ops.hpp"
 #include "tensor.hpp"
 #include <cassert>
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
+
+static double t_qvk{0}, t_attention{0}, t_ffn{0};
 
 Tensor matvec(const Tensor &A, const Tensor &W) {
   assert(static_cast<int>(A.data.size()) == W.column());
@@ -183,6 +186,9 @@ Tensor foward(int token, int pos, const transformerWeight &weight,
   T.shape = {1, config.dim};
 
   for (int layer{0}; layer < config.n_layers; ++layer) {
+
+    // qvk block
+    auto a{std::chrono::steady_clock::now()};
     Tensor T_prime{T};
     rmsnorm(T_prime, weight.rms_att_weight[layer]);
 
@@ -199,9 +205,13 @@ Tensor foward(int token, int pos, const transformerWeight &weight,
       key_cache[layer].at(pos, d) = k.data[d];
       value_cache[layer].at(pos, d) = v.data[d];
     }
+    t_qvk += std::chrono::duration<double>(std::chrono::steady_clock::now() - a)
+                 .count();
+
+    // Attention Block
+    auto b{std::chrono::steady_clock::now()};
 
     Tensor output{std::vector<float>(config.dim, 0), {1, config.dim}};
-
     for (int h{0}; h < config.n_heads; ++h) {
       Tensor scores{std::vector<float>(pos + 1, 0), {1, pos + 1}};
       for (int p{0}; p <= pos; ++p) {
@@ -221,6 +231,12 @@ Tensor foward(int token, int pos, const transformerWeight &weight,
         output.data[h * head_size + d] = sum;
       }
     }
+    t_attention +=
+        std::chrono::duration<double>(std::chrono::steady_clock::now() - b)
+            .count();
+
+    // T_ffn block
+    auto c{std::chrono::steady_clock::now()};
     Tensor att_out = matvec(output, weight.wo[layer]);
     T = matadd_elementwise(T, att_out);
 
@@ -235,8 +251,16 @@ Tensor foward(int token, int pos, const transformerWeight &weight,
 
     Tensor ffn_out = matvec(gated, weight.w2[layer]);
     T = matadd_elementwise(T, ffn_out);
+    t_ffn += std::chrono::duration<double>(std::chrono::steady_clock::now() - c)
+                 .count();
   }
 
   rmsnorm(T, weight.rms_final_weight);
   return matvec(T, weight.emb); // logits tensor
+}
+
+void printProfile(int n_tokens) {
+  std::cout << "qvk: " << t_qvk * 1e3 / n_tokens << "ms/token\n";
+  std::cout << "attention: " << t_attention * 1e3 / n_tokens << "ms/token\n";
+  std::cout << "fnn: " << t_ffn * 1e3 / n_tokens << "ms/token" << '\n';
 }

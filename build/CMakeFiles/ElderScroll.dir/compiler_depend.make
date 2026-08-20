@@ -752,8 +752,11 @@ CMakeFiles/ElderScroll.dir/main.cpp.o: /Users/blackprince/Desktop/Projects/Talos
   /Library/Developer/CommandLineTools/usr/lib/clang/21/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/21/include/stdint.h \
   /Users/blackprince/Desktop/Projects/Talos/ops.hpp \
-  /Users/blackprince/Desktop/Projects/Talos/tensor.hpp
+  /Users/blackprince/Desktop/Projects/Talos/tensor.hpp \
+  /opt/homebrew/opt/libomp/include/omp.h
 
+
+/opt/homebrew/opt/libomp/include/omp.h:
 
 /Library/Developer/CommandLineTools/usr/lib/clang/21/include/stdint.h:
 

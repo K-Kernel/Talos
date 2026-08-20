@@ -754,4 +754,5 @@ CMakeFiles/ElderScroll.dir/main.cpp.o
  /Library/Developer/CommandLineTools/usr/lib/clang/21/include/stdint.h
  /Users/blackprince/Desktop/Projects/Talos/ops.hpp
  /Users/blackprince/Desktop/Projects/Talos/tensor.hpp
+ /opt/homebrew/opt/libomp/include/omp.h
 
